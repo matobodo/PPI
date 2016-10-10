@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage[slovak]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+
+%custom title
+\usepackage{titling}
+    \pretitle{\begin{center}\fontsize{18bp}{18bp}\selectfont}
+    \posttitle{\par\end{center}}
+    \preauthor{}%\begin{center}\fontsize{14bp}{14bp}\selectfont}
+    \author{}
+    \postauthor{}%\par\end{center}\vspace{24bp}}
+    \predate{}
+    \date{}
+    \postdate{}
+    \setlength{\droptitle}{-50pt}
+
+\title{Title}
+
+%header definition
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Martin Bodický}
+\rhead{\today}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{lipsum}
+\begin{document}
+
+%title
+\maketitle
+\thispagestyle{fancy}
+%obsah
+\section{Section}
+\lipsum
+
+
+\end{document}

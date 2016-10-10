@@ -1,0 +1,280 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{multirow,multicol}
+\usepackage{amsmath}
+
+%----------------------------------------------------------------------------------------------------------
+%karnaugh map begin
+%----------------------------------------------------------------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{matrix,calc}
+
+%isolated term
+%#1 - Optional. Space between node and grouping line. Default=0
+%#2 - node
+%#3 - filling color
+\newcommand{\implicantsol}[3][0]{
+    \draw[rounded corners=3pt, fill=#3, opacity=0.3] ($(#2.north west)+(135:#1)$) rectangle ($(#2.south east)+(-45:#1)$);
+    }
+
+
+%internal group
+%#1 - Optional. Space between node and grouping line. Default=0
+%#2 - top left node
+%#3 - bottom right node
+%#4 - filling color
+\newcommand{\implicant}[4][0]{
+    \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(#2.north west)+(135:#1)$) rectangle ($(#3.south east)+(-45:#1)$);
+    }
+
+%group lateral borders
+%#1 - Optional. Space between node and grouping line. Default=0
+%#2 - top left node
+%#3 - bottom right node
+%#4 - filling color
+\newcommand{\implicantcostats}[4][0]{
+    \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(rf.east |- #2.north)+(90:#1)$)-| ($(#2.east)+(0:#1)$) |- ($(rf.east |- #3.south)+(-90:#1)$);
+    \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(cf.west |- #2.north)+(90:#1)$) -| ($(#3.west)+(180:#1)$) |- ($(cf.west |- #3.south)+(-90:#1)$);
+}
+
+%group top-bottom borders
+%#1 - Optional. Space between node and grouping line. Default=0
+%#2 - top left node
+%#3 - bottom right node
+%#4 - filling color
+\newcommand{\implicantdaltbaix}[4][0]{
+    \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(cf.south -| #2.west)+(180:#1)$) |- ($(#2.south)+(-90:#1)$) -| ($(cf.south -| #3.east)+(0:#1)$);
+    \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(rf.north -| #2.west)+(180:#1)$) |- ($(#3.north)+(90:#1)$) -| ($(rf.north -| #3.east)+(0:#1)$);
+}
+
+%group corners
+%#1 - Optional. Space between node and grouping line. Default=0
+%#2 - filling color
+\newcommand{\implicantcantons}[2][0]{
+    \draw[rounded corners=3pt, opacity=.3] ($(rf.east |- 0.south)+(-90:#1)$) -| ($(0.east |- cf.south)+(0:#1)$);
+    \draw[rounded corners=3pt, opacity=.3] ($(rf.east |- 8.north)+(90:#1)$) -| ($(8.east |- rf.north)+(0:#1)$);
+    \draw[rounded corners=3pt, opacity=.3] ($(cf.west |- 2.south)+(-90:#1)$) -| ($(2.west |- cf.south)+(180:#1)$);
+    \draw[rounded corners=3pt, opacity=.3] ($(cf.west |- 10.north)+(90:#1)$) -| ($(10.west |- rf.north)+(180:#1)$);
+    \fill[rounded corners=3pt, fill=#2, opacity=.3] ($(rf.east |- 0.south)+(-90:#1)$) -|  ($(0.east |- cf.south)+(0:#1)$) [sharp corners] ($(rf.east |- 0.south)+(-90:#1)$) |-  ($(0.east |- cf.south)+(0:#1)$) ;
+    \fill[rounded corners=3pt, fill=#2, opacity=.3] ($(rf.east |- 8.north)+(90:#1)$) -| ($(8.east |- rf.north)+(0:#1)$) [sharp corners] ($(rf.east |- 8.north)+(90:#1)$) |- ($(8.east |- rf.north)+(0:#1)$) ;
+    \fill[rounded corners=3pt, fill=#2, opacity=.3] ($(cf.west |- 2.south)+(-90:#1)$) -| ($(2.west |- cf.south)+(180:#1)$) [sharp corners]($(cf.west |- 2.south)+(-90:#1)$) |- ($(2.west |- cf.south)+(180:#1)$) ;
+    \fill[rounded corners=3pt, fill=#2, opacity=.3] ($(cf.west |- 10.north)+(90:#1)$) -| ($(10.west |- rf.north)+(180:#1)$) [sharp corners] ($(cf.west |- 10.north)+(90:#1)$) |- ($(10.west |- rf.north)+(180:#1)$) ;
+}
+
+%Empty Karnaugh map 4x4
+\newenvironment{Karnaugh}%
+{
+\begin{tikzpicture}[baseline=(current bounding box.north),scale=0.8]
+\draw (0,0) grid (4,4);
+\draw (0,4) -- node [pos=0.7,above right,anchor=south west] {cd} node [pos=0.7,below left,anchor=north east] {ab} ++(135:1);
+%
+\matrix (mapa) [matrix of nodes,
+        column sep={0.8cm,between origins},
+        row sep={0.8cm,between origins},
+        every node/.style={minimum size=0.3mm},
+        anchor=8.center,
+        ampersand replacement=\&] at (0.5,0.5)
+{
+                       \& |(c00)| 00         \& |(c01)| 01         \& |(c11)| 11         \& |(c10)| 10         \& |(cf)| \phantom{00} \\
+|(r00)| 00             \& |(0)|  \phantom{0} \& |(1)|  \phantom{0} \& |(3)|  \phantom{0} \& |(2)|  \phantom{0} \&                     \\
+|(r01)| 01             \& |(4)|  \phantom{0} \& |(5)|  \phantom{0} \& |(7)|  \phantom{0} \& |(6)|  \phantom{0} \&                     \\
+|(r11)| 11             \& |(12)| \phantom{0} \& |(13)| \phantom{0} \& |(15)| \phantom{0} \& |(14)| \phantom{0} \&                     \\
+|(r10)| 10             \& |(8)|  \phantom{0} \& |(9)|  \phantom{0} \& |(11)| \phantom{0} \& |(10)| \phantom{0} \&                     \\
+|(rf) | \phantom{00}   \&                    \&                    \&                    \&                    \&                     \\
+};
+}%
+{
+\end{tikzpicture}
+}
+
+%Empty Karnaugh map 2x4
+\newenvironment{Karnaughvuit}%
+{
+\begin{tikzpicture}[baseline=(current bounding box.north),scale=0.8]
+\draw (0,0) grid (4,2);
+\draw (0,2) -- node [pos=0.7,above right,anchor=south west] {bc} node [pos=0.7,below left,anchor=north east] {a} ++(135:1);
+%
+\matrix (mapa) [matrix of nodes,
+        column sep={0.8cm,between origins},
+        row sep={0.8cm,between origins},
+        every node/.style={minimum size=0.3mm},
+        anchor=4.center,
+        ampersand replacement=\&] at (0.5,0.5)
+{
+                      \& |(c00)| 00         \& |(c01)| 01         \& |(c11)| 11         \& |(c10)| 10         \& |(cf)| \phantom{00} \\
+|(r00)| 0             \& |(0)|  \phantom{0} \& |(1)|  \phantom{0} \& |(3)|  \phantom{0} \& |(2)|  \phantom{0} \&                     \\
+|(r01)| 1             \& |(4)|  \phantom{0} \& |(5)|  \phantom{0} \& |(7)|  \phantom{0} \& |(6)|  \phantom{0} \&                     \\
+|(rf) | \phantom{00}  \&                    \&                    \&                    \&                    \&                     \\
+};
+}%
+{
+\end{tikzpicture}
+}
+
+%Empty Karnaugh map 2x2
+\newenvironment{Karnaughquatre}%
+{
+\begin{tikzpicture}[baseline=(current bounding box.north),scale=0.8]
+\draw (0,0) grid (2,2);
+\draw (0,2) -- node [pos=0.7,above right,anchor=south west] {b} node [pos=0.7,below left,anchor=north east] {a} ++(135:1);
+%
+\matrix (mapa) [matrix of nodes,
+        column sep={0.8cm,between origins},
+        row sep={0.8cm,between origins},
+        every node/.style={minimum size=0.3mm},
+        anchor=2.center,
+        ampersand replacement=\&] at (0.5,0.5)
+{
+          \& |(c00)| 0          \& |(c01)| 1  \\
+|(r00)| 0 \& |(0)|  \phantom{0} \& |(1)|  \phantom{0} \\
+|(r01)| 1 \& |(2)|  \phantom{0} \& |(3)|  \phantom{0} \\
+};
+}%
+{
+\end{tikzpicture}
+}
+
+%Defines 8 or 16 values (0,1,X)
+\newcommand{\contingut}[1]{%
+\foreach \x [count=\xi from 0]  in {#1}
+     \path (\xi) node {\x};
+}
+
+%Places 1 in listed positions
+\newcommand{\minterms}[1]{%
+    \foreach \x in {#1}
+        \path (\x) node {1};
+}
+
+%Places 0 in listed positions
+\newcommand{\maxterms}[1]{%
+    \foreach \x in {#1}
+        \path (\x) node {0};
+}
+
+%Places X in listed positions
+\newcommand{\indeterminats}[1]{%
+    \foreach \x in {#1}
+        \path (\x) node {X};
+}
+%----------------------------------------------------------------------------------------------------------
+%karnaugh map end
+%----------------------------------------------------------------------------------------------------------
+
+%custom title
+\usepackage{titling}
+    \pretitle{\begin{center}\bfseries\fontsize{18bp}{18bp}\selectfont}
+    \posttitle{\par\end{center}}
+    \preauthor{}%\begin{center}\fontsize{14bp}{14bp}\selectfont}
+    \author{}
+    \postauthor{}%\par\end{center}\vspace{24bp}}
+    \predate{}
+    \date{}
+    \postdate{}
+    \setlength{\droptitle}{-50pt}
+
+\title{Riešenie 2. zadania}
+
+%header definition
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Martin Bodický}
+\rhead{\today}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+
+%title
+\maketitle
+\thispagestyle{fancy}
+%obsah
+\section{Tabuľka funkčných hodnôt a Karnaughova mapa}
+\begin{tabular}{c|c c c c|c c c c}
+\#&\multicolumn{4}{c|}{\textbf{BCD8421}}&\multicolumn{4}{c}{\textbf{BCD8421+3}}\\ \hline
+0&0&0&0&0&0&0&1&1\\ \hline
+1&0&0&0&1&0&1&0&0\\ \hline
+2&0&0&1&0&0&1&0&1\\ \hline
+3&0&0&1&1&0&1&1&0\\ \hline
+4&0&1&0&0&0&1&1&1\\ \hline
+5&0&1&0&1&1&0&0&0\\ \hline
+6&0&1&1&0&1&0&0&1\\ \hline
+7&0&1&1&1&1&0&1&0\\ \hline
+8&1&0&0&0&1&0&1&1\\ \hline
+9&1&0&0&1&1&1&0&0
+\end{tabular}
+\begin{tabular}{c c c|c|c|c}
+\multicolumn{4}{}{}&\multicolumn{2}{c}{\textbf{d}}\\ \cline{5-6}
+\multicolumn{3}{}{}&\multicolumn{2}{c}{\textbf{c}}&\\ \cline{4-5} \\
+&&0011&0101&0110&0100\\
+&\multicolumn{1}{c|}{\multirow{2}{*}{a}}&1011&XXXX&XXXX&1100\\
+\multicolumn{1}{c|}{\multirow{2}{*}{b}}&\multicolumn{1}{c|}{}&XXXX&XXXX&XXXX&XXXX\\
+\multicolumn{1}{c|}{}&&0111&1001&1010&1000
+\end{tabular}
+
+\section{Karnaughove mapy a DNF}
+\subsection{Mapy}
+\begin{tabular}{c c}
+\begin{Karnaugh}
+\contingut{0,0,0,0,1,X,1,X,0,1,1,1,X,X,X,X}
+\implicant{4}{14}{red}
+\implicant{13}{11}{green}
+\implicant{15}{10}{blue}
+\end{Karnaugh}
+&
+\begin{Karnaugh}
+\contingut{0,1,1,1,0,X,1,X,1,0,0,0,X,X,X,X}
+\implicant{1}{7}{cyan}
+\implicant{3}{6}{yellow}
+\implicant{12}{8}{brown}
+\end{Karnaugh}
+\\
+\textbf{A}&\textbf{B}\\
+\begin{Karnaugh}
+\contingut{1,0,0,1,1,X,0,X,1,0,0,1,X,X,X,X}
+\implicant{0}{8}{magenta}
+\implicant{3}{11}{magenta}
+\end{Karnaugh}
+&
+\begin{Karnaugh}
+\contingut{1,1,0,0,1,X,0,X,1,1,0,0,X,X,X,X}
+\implicant{0}{9}{orange}
+\end{Karnaugh}
+\\
+\textbf{C}&\textbf{D}
+\end{tabular}
+
+\subsection{MDNF}
+$A = a + bc + bd$\\
+$B = \overline{b}c + \overline{b}d + b\overline{c}\overline{d}$\\
+$C = cd + \overline{c}\overline{d}$\\
+$D = \overline{d}$
+
+\subsection{Prepis na NAND}
+$A = a + bc + bd$\\
+$A = \overline{\overline{a + bc + bd}}$\\
+$A = \overline{a}(\overline{bc})(\overline{bd})$\\
+$A = (a\uparrow)\uparrow(b\uparrow c)\uparrow(b\uparrow d)$\\
+$B = \overline{b}c + \overline{b}d + b\overline{c}\overline{d}$\\
+$B = \overline{\overline{\overline{b}c + \overline{b}d + b\overline{c}\overline{d}}}$\\
+$B = \overline{\overline{(\overline{b}c})(\overline{\overline{b}d})(\overline{b\overline{c}\overline{d}})}$\\
+$B = ((b\uparrow)\uparrow c)\uparrow((b\uparrow)\uparrow d)\uparrow(b\uparrow(c\uparrow)\uparrow(d\uparrow))$
+$C = cd + \overline{c}\overline{d}$\\
+$C = \overline{\overline{cd + \overline{c}\overline{d}}}$\\
+$C = \overline{(\overline{cd})(\overline{\overline{c}\overline{d}})}$\\
+$C = (c \uparrow d)\uparrow((c\uparrow)\uparrow(d\uparrow))$\\
+$D = \overline{d}$\\
+$D = \overline{\overline{\overline{d}}}$\\
+$D = \overline{d}$\\
+$D = d\uparrow$
+Počet logických členov: 13\\
+Počet vstupov do logických členov:
+
+
+
+
+\end{document}
