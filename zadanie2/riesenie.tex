@@ -5,6 +5,7 @@
 \usepackage{fancyhdr}
 \usepackage{multirow,multicol}
 \usepackage{amsmath}
+\usepackage{longtable}
 
 %----------------------------------------------------------------------------------------------------------
 %karnaugh map begin
@@ -218,7 +219,7 @@
 
 \section{Karnaughove mapy a DNF}
 \subsection{Mapy}
-\begin{tabular}{c c}
+\begin{longtable}{c c}
 \begin{Karnaugh}
 \contingut{0,0,0,0,0,1,1,1,1,1,X,X,X,X,X,X}
 \implicant{12}{10}{red}
@@ -246,7 +247,7 @@
 \end{Karnaugh}
 \\
 \textbf{C}&\textbf{D}
-\end{tabular}
+\end{longtable}
 
 \subsection{MDNF}
 $A = a + bc + bd$\\
@@ -318,7 +319,7 @@ $A = \overline{\overline{(a+b)(b+c+d)}}$\\
 $A = \overline{(\overline{a+b})+(\overline{a+c+d})}$\\
 $A = (a\downarrow b)\downarrow(a\downarrow c\downarrow d)$\\
 $B = (\overline{b}+\overline{c})(\overline{b}+\overline{d})(b+c+d)$\\
-$B = \overline{\overline({\overline{b}+\overline{c})(\overline{b}+\overline{d})(b+c+d)}}$\\
+$B = \overline{\overline{(\overline{b}+\overline{c})(\overline{b}+\overline{d})(b+c+d)}}$\\
 $B = \overline{(\overline{\overline{b}+\overline{c}})+(\overline{\overline{b}+\overline{d}})+(\overline{b+c+d})}$\\
 $B = ((b\downarrow)\downarrow(c\downarrow))\downarrow((b\downarrow)\downarrow(d\downarrow))\downarrow(b\downarrow c\downarrow d)$\\
 $C = (c+\overline{d})(\overline{c}+d)$\\
@@ -331,6 +332,8 @@ $D = \overline{d}$\\
 $D = d\downarrow$\\
 Počet logických členov: 14\\
 Počet vstupov do logických členov: 31
+
+\section{Zhodnotenie}
 
 
 \end{document}
