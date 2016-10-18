@@ -1,0 +1,180 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{multirow,multicol}
+\usepackage{amsmath}
+
+\input{karnaugh}
+
+%custom title
+\usepackage{titling}
+    \pretitle{\begin{center}\bfseries\fontsize{18bp}{18bp}\selectfont}
+    \posttitle{\par\end{center}}
+    \preauthor{}%\begin{center}\fontsize{14bp}{14bp}\selectfont}
+    \author{}
+    \postauthor{}%\par\end{center}\vspace{24bp}}
+    \predate{}
+    \date{}
+    \postdate{}
+    \setlength{\droptitle}{-50pt}
+
+\title{Riešenie 2. zadania}
+
+%header definition
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Martin Bodický}
+\rhead{\today}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+
+%title
+\maketitle
+\thispagestyle{fancy}
+%obsah
+\section{Tabuľka funkčných hodnôt a Karnaughova mapa}
+\begin{tabular}{c|c c c c|c c c c}
+\#&\multicolumn{4}{c|}{\textbf{BCD8421}}&\multicolumn{4}{c}{\textbf{BCD8421+3}}\\ \hline
+0&0&0&0&0&0&0&1&1\\ \hline
+1&0&0&0&1&0&1&0&0\\ \hline
+2&0&0&1&0&0&1&0&1\\ \hline
+3&0&0&1&1&0&1&1&0\\ \hline
+4&0&1&0&0&0&1&1&1\\ \hline
+5&0&1&0&1&1&0&0&0\\ \hline
+6&0&1&1&0&1&0&0&1\\ \hline
+7&0&1&1&1&1&0&1&0\\ \hline
+8&1&0&0&0&1&0&1&1\\ \hline
+9&1&0&0&1&1&1&0&0
+\end{tabular}
+\begin{tabular}{c c c|c|c|c}
+\multicolumn{4}{}{}&\multicolumn{2}{c}{\textbf{d}}\\ \cline{5-6}
+\multicolumn{3}{}{}&\multicolumn{2}{c}{\textbf{c}}&\\ \cline{4-5} \\
+&&0011&0101&0110&0100\\
+&\multicolumn{1}{c|}{\multirow{2}{*}{a}}&1011&XXXX&XXXX&1100\\
+\multicolumn{1}{c|}{\multirow{2}{*}{b}}&\multicolumn{1}{c|}{}&XXXX&XXXX&XXXX&XXXX\\
+\multicolumn{1}{c|}{}&&0111&1001&1010&1000
+\end{tabular}
+
+\section{Karnaughove mapy a DNF}
+\subsection{Mapy}
+\begin{tabular}{c c}
+\begin{Karnaugh}
+\contingut{0,0,0,0,0,1,1,1,1,1,X,X,X,X,X,X}
+\implicant{12}{10}{red}
+\implicant{5}{15}{green}
+\implicant{7}{14}{blue}
+\end{Karnaugh}
+&
+\begin{Karnaugh}
+\contingut{0,1,1,1,1,0,0,0,0,1,X,X,X,X,X,X}
+\implicantdaltbaix{1}{11}{cyan}
+\implicantdaltbaix{3}{10}{yellow}
+\implicant{4}{12}{brown}
+\end{Karnaugh}
+\\
+\textbf{A}&\textbf{B}\\
+\begin{Karnaugh}
+\contingut{1,0,0,1,1,0,0,1,1,0,X,X,X,X,X,X}
+\implicant{0}{8}{orange}
+\implicant{3}{11}{magenta}
+\end{Karnaugh}
+&
+\begin{Karnaugh}
+\contingut{1,0,1,0,1,0,1,0,1,0,X,X,X,X,X,X}
+\implicantcostats{0}{10}{lime}
+\end{Karnaugh}
+\\
+\textbf{C}&\textbf{D}
+\end{tabular}
+
+\subsection{MDNF}
+$A = a + bc + bd$\\
+$B = \overline{b}c + \overline{b}d + b\overline{c}\overline{d}$\\
+$C = cd + \overline{c}\overline{d}$\\
+$D = \overline{d}$
+
+\subsection{Prepis na NAND}
+$A = a + bc + bd$\\
+$A = \overline{\overline{a + bc + bd}}$\\
+$A = \overline{a}(\overline{bc})(\overline{bd})$\\
+$A = (a\uparrow)\uparrow(b\uparrow c)\uparrow(b\uparrow d)$\\
+$B = \overline{b}c + \overline{b}d + b\overline{c}\overline{d}$\\
+$B = \overline{\overline{\overline{b}c + \overline{b}d + b\overline{c}\overline{d}}}$\\
+$B = \overline{\overline{(\overline{b}c})(\overline{\overline{b}d})(\overline{b\overline{c}\overline{d}})}$\\
+$B = ((b\uparrow)\uparrow c)\uparrow((b\uparrow)\uparrow d)\uparrow(b\uparrow(c\uparrow)\uparrow(d\uparrow))$\\
+$C = cd + \overline{c}\overline{d}$\\
+$C = \overline{\overline{cd + \overline{c}\overline{d}}}$\\
+$C = \overline{(\overline{cd})(\overline{\overline{c}\overline{d}})}$\\
+$C = (c \uparrow d)\uparrow((c\uparrow)\uparrow(d\uparrow))$\\
+$D = \overline{d}$\\
+$D = \overline{\overline{\overline{d}}}$\\
+$D = \overline{d}$\\
+$D = d\uparrow$\\
+Počet logických členov: 14\\
+Počet vstupov do logických členov: 31
+
+
+\section{Karnaughove mapy a KNF}
+\subsection{Mapy}
+\begin{tabular}{c c}
+\begin{Karnaugh}
+\contingut{0,0,0,0,0,1,1,1,1,1,X,X,X,X,X,X}
+\implicant{0}{2}{red}
+\implicant{0}{4}{green}
+\end{Karnaugh}
+&
+\begin{Karnaugh}
+\contingut{0,1,1,1,1,0,0,0,0,1,X,X,X,X,X,X}
+\implicant{7}{14}{blue}
+\implicant{5}{15}{yellow}
+\implicantdaltbaix{0}{8}{brown}
+\end{Karnaugh}
+\\
+\textbf{A}&\textbf{B}\\
+\begin{Karnaugh}
+\contingut{1,0,0,1,1,0,0,1,1,0,X,X,X,X,X,X}
+\implicant{1}{9}{cyan}
+\implicant{2}{10}{magenta}
+\end{Karnaugh}
+&
+\begin{Karnaugh}
+\contingut{1,0,1,0,1,0,1,0,1,0,X,X,X,X,X,X}
+\implicant{1}{11}{orange}
+\end{Karnaugh}
+\\
+\textbf{C}&\textbf{D}
+\end{tabular}
+
+\subsection{MKNF}
+$A = (a+b)(b+c+d)$\\
+$B = (\overline{b}+\overline{c})(\overline{b}+\overline{d})(b+c+d)$\\
+$C = (c+\overline{d})(\overline{c}+d)$\\
+$D = \overline{d}$
+
+\subsection{Prepis na NOR}
+$A = (a+b)(b+c+d)$\\
+$A = \overline{\overline{(a+b)(b+c+d)}}$\\
+$A = \overline{(\overline{a+b})+(\overline{a+c+d})}$\\
+$A = (a\downarrow b)\downarrow(a\downarrow c\downarrow d)$\\
+$B = (\overline{b}+\overline{c})(\overline{b}+\overline{d})(b+c+d)$\\
+$B = \overline{\overline({\overline{b}+\overline{c})(\overline{b}+\overline{d})(b+c+d)}}$\\
+$B = \overline{(\overline{\overline{b}+\overline{c}})+(\overline{\overline{b}+\overline{d}})+(\overline{b+c+d})}$\\
+$B = ((b\downarrow)\downarrow(c\downarrow))\downarrow((b\downarrow)\downarrow(d\downarrow))\downarrow(b\downarrow c\downarrow d)$\\
+$C = (c+\overline{d})(\overline{c}+d)$\\
+$C = \overline{\overline{(c+\overline{d})(\overline{c}+d)}}$\\
+$C = \overline{(\overline{c+\overline{d}})+(\overline{\overline{c}+d})}$\\
+$C = (c\downarrow(d\downarrow))\downarrow((c\downarrow)\downarrow d)$\\
+$D = \overline{d}$\\
+$D = \overline{\overline{\overline{d}}}$\\
+$D = \overline{d}$\\
+$D = d\downarrow$\\
+Počet logických členov: 14\\
+Počet vstupov do logických členov: 31
+
+
+\end{document}
