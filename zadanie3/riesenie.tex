@@ -76,7 +76,7 @@ S6&S2&S1&1&"100001" \\ \hline
 
 \subsection{Prechodový graf}
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,node distance=2.5cm,on grid,auto] 
-   \node[state,initial] (S0)   {${S0}/0$}; 
+   \node[state,initial] (S0)   {$S0/0$}; 
    \node[state] (S1) [right=of S0] {$S1/0$}; 
    \node[state] (S2) [above right=of S1] {$S2/0$}; 
    \node[state] (S3) [right=of S2] {$S3/0$}; 
@@ -108,6 +108,7 @@ S6&S2&S1&1&"100001" \\ \hline
 				&						&S0	&S6	&S1	&S2\\ \cline{3-6}
 \multicolumn{1}{c|}{z1}	&						&S5	&X	&S3	&S4 \\ \cline{3-6}
 \end{tabular}
+
 \begin{tabular}{|c|c|} \hline
 Stav&z1z2z3\\ \hline
 S0&000\\ \hline
@@ -136,29 +137,29 @@ S6&010\\ \hline
 \subsection{Budiace obvody pre D preklápacie obvody}
 \begin{longtable}{c c}
 \begin{Karnaugh}{Xz1}{z2z3}
-\contingut{000,001,111,001,000,XXX,100,101,011,011,011,011,010,XXX,011,011}
+\contingut{000,111,001,001,000,100,XXX,101,011,011,011,011,010,011,XXX,011}
 \end{Karnaugh}
 &
 \begin{Karnaugh}{Xz1}{z2z3}
-\contingut{0,0,1,0,0,X,1,1,0,0,0,0,0,X,0,0}
+\contingut{0,1,0,0,0,1,X,1,0,0,0,0,0,0,X,0}
 \end{Karnaugh}
 \\
 \textbf{D1,D2,D3}&\textbf{D1}\\
 \begin{Karnaugh}{Xz1}{z2z3}
-\contingut{0,0,1,0,0,X,0,0,1,1,1,1,1,X,1,1}
+\contingut{0,1,0,0,0,0,X,0,1,1,1,1,1,1,X,1}
 \end{Karnaugh}
 &
 \begin{Karnaugh}{Xz1}{z2z3}
-\contingut{0,1,1,1,0,X,0,1,1,1,1,1,0,X,1,1}
+\contingut{0,1,1,1,0,0,X,1,1,1,1,1,0,1,X,1}
 \end{Karnaugh}
 \\
 \textbf{D2}&\textbf{D3}\\
 \begin{Karnaughvuit}{z1}{z2z3}
-\contingut{0,1,0,0,0,X,0,0}
-\implicant{1}{5}{red}
+\contingut{0,0,1,0,0,0,X,0}
+\implicant{2}{6}{red}
 \end{Karnaughvuit}
 &\\
-$\textbf{Y}=\overline{z2}.z3$&
+$\textbf{Y}=z2.\overline{z3}$&
 \end{longtable}
 
 \subsection{Budiace funkcie pre JK preklápacie obvody}
@@ -174,41 +175,41 @@ $\textbf{Y}=\overline{z2}.z3$&
 \end{table}
 \begin{longtable}{c c}
 \begin{Karnaugh}{XZ1}{Z2Z3}
-\contingut{0,0,1,0,X,X,X,X,0,0,0,0,X,X,X,X}
-\implicant{2}{2}{green}
+\contingut{0,1,0,0,X,X,X,X,0,0,0,0,X,X,X,X}
+\implicantsol{1}{green}
 \end{Karnaugh}
 &
 \begin{Karnaugh}{XZ1}{Z2Z3}
-\contingut{X,X,X,X,1,X,0,0,X,X,X,X,1,X,1,1}
-\implicant{0}{9}{blue}
-\implicant{12}{10}{red}
+\contingut{X,X,X,X,1,0,X,0,X,X,X,X,1,1,X,1}
+\implicant{12}{10}{blue}
+\implicantcostats{0}{10}{red}
 \end{Karnaugh}
 \\
-$\textbf{J1}=\overline{X}.\overline{Z1}.Z2.\overline{Z3}$&$\textbf{K1}=X+\overline{Z2}$\\
+$\textbf{J1}=\overline{X}.\overline{Z1}.\overline{Z2}.Z3$&$\textbf{K1}=X+\overline{Z3}$\\
 \begin{Karnaugh}{XZ1}{Z2Z3}
-\contingut{0,0,X,X,0,X,X,X,1,1,X,X,1,X,X,X}
-\implicant{12}{10}{red}
+\contingut{0,1,X,X,0,0,X,X,1,1,X,X,1,1,X,X}
+\implicantsol{1}{green}
+\implicant{12}{10}{blue}
 \end{Karnaugh}
 &
 \begin{Karnaugh}{XZ1}{Z2Z3}
-\contingut{X,X,0,1,X,X,1,1,X,X,0,0,X,X,0,0}
-\implicant{1}{7}{orange}
-\implicant{4}{6}{lime}
+\contingut{X,X,1,1,X,X,X,1,X,X,0,0,X,X,X,0}
+\implicant{0}{6}{orange}
 \end{Karnaugh}
 \\
-$\textbf{J2}=X$&$\textbf{K2}=\overline{X}.Z3+\overline{X}.\overline{Z1}$\\
+$\textbf{J2}=X+\overline{X}.\overline{Z1}.\overline{Z2}.Z3$&$\textbf{K2}=\overline{X}$\\
 \begin{Karnaugh}{XZ1}{Z2Z3}
-\contingut{0,X,1,X,0,X,0,X,1,X,1,X,0,X,1,X}
-\implicant{2}{2}{green}
-\implicant{8}{10}{brown}
-\implicant{15}{10}{purple}
+\contingut{0,X,1,X,0,X,X,X,1,X,1,X,0,X,X,X}
+\implicant{3}{10}{yellow}
+\implicant{8}{10}{violet}
 \end{Karnaugh}
 &
 \begin{Karnaugh}{XZ1}{Z2Z3}
-\contingut{X,0,X,0,X,X,X,0,X,0,X,0,X,X,X,0}
+\contingut{X,0,X,0,X,1,X,0,X,0,X,0,X,0,X,0}
+\implicant{4}{5}{pink}
 \end{Karnaugh}
 \\
-$\textbf{J3}=\overline{X}.\overline{Z1}.Z2.\overline{Z3}+X.Z2+X.\overline{Z1}$&$\textbf{K3}=0$\\
+$\textbf{J3}=Z2+X.\overline{Z1}$&$\textbf{K3}=\overline{X}.Z1.\overline{Z2}$\\
 \end{longtable}
 
 %\subsection{ESPRESSO}
@@ -240,26 +241,226 @@ $\textbf{J3}=\overline{X}.\overline{Z1}.Z2.\overline{Z3}+X.Z2+X.\overline{Z1}$&$
 %$D = (!b\&c\&!d) | (b\&c\&!d) | (!c\&!d);$
 
 \subsection{Prepis na NAND s využitím Shefferovej operácie}
-$J1 = \overline{X}.\overline{Z1}.Z2.\overline{Z3}$\\
-$J1 = \overline{\overline{\overline{X}.\overline{Z1}.Z2.\overline{Z3}+\overline{X}.\overline{Z1}.Z2.\overline{Z3}}}$\\
-$J1 = \overline{(\overline{\overline{X}.\overline{Z1}.Z2.\overline{Z3}}).(\overline{\overline{X}.\overline{Z1}.Z2.\overline{Z3})}}$\\
-$J1 = ((X\uparrow)\uparrow(Z1\uparrow)\uparrow Z2\uparrow(Z3\uparrow)\uparrow$\\\\
-$K1 = X +\overline{Z2}$\\
-$K1 = \overline{\overline{X +\overline{Z2}}}$\\
-$K1 = \overline{\overline{X}.Z2}$\\
-$K1 = ((X\uparrow)\uparrow Z2)$\\\\
-$J2 = X$\\\\
-$K2 = \overline{X}.Z3+\overline{X}.\overline{Z1}$\\
-$K2 = \overline{\overline{\overline{X}.Z3+\overline{X}.\overline{Z1}}}$\\
-$K2 = \overline{(\overline{\overline{X}.Z3}).(\overline{\overline{X}.\overline{Z1}})}$\\
-$K2 = ((X\uparrow)\uparrow Z3)\uparrow((X\uparrow)\uparrow(Z1\uparrow))$\\\\
-$J3 = \overline{X}.\overline{Z1}.Z2.\overline{Z3}+X.Z2+X.\overline{Z1}$\\
-$J3 = \overline{ \overline{ \overline{X}.\overline{Z1}.Z2.\overline{Z3}+X.Z2+X.\overline{Z1}}}$\\
-$J3 = \overline{(\overline{\overline{X}.\overline{Z1}.Z2.\overline{Z3}}).(\overline{X.Z2}).(\overline{X.\overline{Z1}})}$\\
-$J3 = ((X\uparrow)\uparrow(Z1\uparrow)\uparrow Z2\uparrow(Z3\uparrow))\uparrow(X\uparrow Z2)\uparrow(X\uparrow(Z1\uparrow))$\\\\
-$K3 = 0$\\\\
+$J1 = \overline{X}.\overline{Z1}.\overline{Z2}.Z3$\\
+$J1 = \overline{\overline{\overline{X}.\overline{Z1}.\overline{Z2}.Z3+\overline{X}.\overline{Z1}.\overline{Z2}.Z3}}$\\
+$J1 = \overline{(\overline{\overline{X}.\overline{Z1}.\overline{Z2}.Z3}).(\overline{\overline{X}.\overline{Z1}.\overline{Z2}.Z3})}$\\
+$J1 = ((X\uparrow)\uparrow(Z1\uparrow)\uparrow(Z2\uparrow)\uparrow Z3)\uparrow$\\\\
+$K1 = X+\overline{Z3}$\\
+$K1 = \overline{\overline{X+\overline{Z3}}}$\\
+$K1 = \overline{\overline{X}.Z3}$\\
+$K1 = (X\uparrow)\uparrow Z3$\\\\
+$J2 = X+\overline{X}.\overline{Z1}.\overline{Z2}.Z3$\\
+$J2 = \overline{\overline{X+\overline{X}.\overline{Z1}.\overline{Z2}.Z3}}$\\
+$J2 = \overline{\overline{X}.(\overline{\overline{X}.\overline{Z1}.\overline{Z2}.Z3})}$\\
+$J2 = (X\uparrow)\uparrow((X\uparrow)\uparrow(Z1\uparrow)\uparrow(Z2\uparrow)\uparrow Z3)$\\\\
+$K2 = \overline{X}$\\
+$K2 = X\uparrow$\\\\
+$J3 = Z2+X.\overline{Z1}$\\
+$J3 = \overline{\overline{Z2+X.\overline{Z1}}}$\\
+$J3 = \overline{\overline{Z2}.(\overline{X.\overline{Z1}})}$\\
+$J3 = (Z2\uparrow)\uparrow(X\uparrow(Z1\uparrow))$\\\\
+$K3 = \overline{X}.Z1.\overline{Z2}$\\
+$K3 = \overline{\overline{\overline{X}.Z1.\overline{Z2}+\overline{X}.Z1.\overline{Z2}}}$\\
+$K3 = \overline{(\overline{\overline{X}.Z1.\overline{Z2}}).(\overline{\overline{X}.Z1.\overline{Z2}})}$\\
+$K3 = ((X\uparrow)\uparrow Z1\uparrow(Z2\uparrow))\uparrow$\\\\
+$Y = Z2.\overline{Z3}$\\
+$Y = \overline{\overline{Z2.\overline{Z3}+Z2.\overline{Z3}}}$\\
+$Y = \overline{(\overline{Z2.\overline{Z3}}).(\overline{Z2.\overline{Z3}})}$\\
+$Y = (Z2\uparrow(Z3\uparrow))\uparrow$\\\\
+Počet logických členov NAND: 11. 
+Počet preklápacích obvodov JK: 3. 
+Počet vstupov do logických členov: 37 z toho 25 v kombinačnej časti a 12 v pamäťovej časti.\pagebreak
+
+
+\section{Automat typu Mealy}
+
+\subsection{Prechodová tabuľka}
+\begin{tabular}{c|c|c|c|l|}
+\multirow{2}{*}{stav}&\multicolumn{2}{|c|}{Nový stav}&Y&\multirow{2}{1.3cm}{Čo je splnené?}\\ \cline{2-4}
+&X=0&X=1&&\\ \hline
+&&&& \\ \hline
+\end{tabular}
+
+\subsection{Prechodový graf}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,node distance=2.5cm,on grid,auto] 
+   \node[state,initial] (S0)   {$S0$}; 
+   \node[state] (S1) [right=of S0] {$S1$}; 
+   \node[state] (S2) [right=of S1] {$S2$}; 
+   \node[state] (S3) [right=of S2] {$S3/0$}; 
+   \node[state] (S4) [below right=of S3] {$S4/0$}; 
+   \node[state](S5) [right=of S6] {$S5/0$};
+    \path[->] 
+	(S0) 	edge [loop above]		node {0} 	()
+	 	edge				node {1}	(S1)
+	(S1) 	edge [bend left=10]	node {0} 	(S2)
+	 	edge [loop above]		node {1}	()
+	(S2)	edge				node {0}	(S3)
+		edge [bend left=10]	node {1}	(S1)
+	(S3)	edge				node {0}	(S4)
+		edge [bend left=10]	node {1}	(S1)
+	(S4)	edge				node {0}	(S5)
+		edge [bend left=10]	node {1}	(S1)
+	(S5)	edge [bend left=40]	node {0}	(S0)
+		edge				node {1}	(S6)
+	(S6)	edge 				node {0}	(S2)
+		edge				node {1}	(S1);
+\end{tikzpicture}
+
+\subsection{Kódovanie stavov}
+\begin{multicols}{2}
+\begin{tabular}{c c|c|c|c|c|}
+\multicolumn{4}{}{}		&\multicolumn{2}{c}{\textbf{z3}}\\ \cline{5-6}
+\multicolumn{3}{}{}		&\multicolumn{2}{c}{\textbf{z2}}	&\multicolumn{1}{c}{}\\ \cline{4-5} \\ \cline{3-6}
+				&						&	&	&	&\\ \cline{3-6}
+\multicolumn{1}{c|}{z1}	&						&	&	&	& \\ \cline{3-6}
+\end{tabular}
+
+\begin{tabular}{|c|c|} \hline
+Stav&z1z2z3\\ \hline
+&000\\ \hline
+&\\ \hline
+&\\ \hline
+&\\ \hline
+&\\ \hline
+&\\ \hline
+&\\ \hline
+\end{tabular}
+\end{multicols}
+
+\subsection{Prechodová tabuľka}
+\begin{tabular}{c|c|c|c|l|}
+\multirow{2}{*}{stav}&\multicolumn{2}{|c|}{Nový stav}&Y&\multirow{2}{1.3cm}{Čo je splnené?}\\ \cline{2-4}
+&X=0&X=1&&\\ \hline
+&&&& \\ \hline
+\end{tabular}
+
+\subsection{Budiace obvody pre D preklápacie obvody}
+\begin{longtable}{c c}
+\begin{Karnaugh}{Xz1}{z2z3}
+\contingut{}
+\end{Karnaugh}
+&
+\begin{Karnaugh}{Xz1}{z2z3}
+\contingut{}
+\end{Karnaugh}
+\\
+\textbf{D1,D2,D3}&\textbf{D1}\\
+\begin{Karnaugh}{Xz1}{z2z3}
+\contingut{}
+\end{Karnaugh}
+&
+\begin{Karnaugh}{Xz1}{z2z3}
+\contingut{}
+\end{Karnaugh}
+\\
+\textbf{D2}&\textbf{D3}\\
+\begin{Karnaugh}{Xz1}{z2z3}
+\contingut{}
+\end{Karnaugh}
+&\\
+$\textbf{Y}=$&
+\end{longtable}
+
+\subsection{Budiace funkcie pre JK preklápacie obvody}
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}\cline{2-3}
+\multicolumn{1}{c|}{z->Z}		&J	&K \\ \hline
+0->0					&0	&X \\ \hline
+0->1					&1	&X \\ \hline
+1->\textbf{\underline{0}}		&X 	&\textbf{\underline{1}} \\ \hline
+1->\textbf{\underline{1}}		&X 	&\textbf{\underline{0}} \\ \hline
+\end{tabular}
+\end{table}
+\begin{longtable}{c c}
+\begin{Karnaugh}{XZ1}{Z2Z3}
+\contingut{}
+\end{Karnaugh}
+&
+\begin{Karnaugh}{XZ1}{Z2Z3}
+\contingut{}
+\end{Karnaugh}
+\\
+$\textbf{J1}=$&$\textbf{K1}=$\\
+\begin{Karnaugh}{XZ1}{Z2Z3}
+\contingut{}
+\end{Karnaugh}
+&
+\begin{Karnaugh}{XZ1}{Z2Z3}
+\contingut{}
+\end{Karnaugh}
+\\
+$\textbf{J2}=$&$\textbf{K2}=$\\
+\begin{Karnaugh}{XZ1}{Z2Z3}
+\contingut{}
+\end{Karnaugh}
+&
+\begin{Karnaugh}{XZ1}{Z2Z3}
+\contingut{}
+\end{Karnaugh}
+\\
+$\textbf{J3}=$&$\textbf{K3}=$\\
+\end{longtable}
+
+%\subsection{ESPRESSO}
+%\subsubsection{Vstup}
+%\begin{multicols}{2}
+%\noindent
+%.i 4 \\
+%.o 7 \\
+%.ilb X Z1 Z2 Z3 \\
+%.ob J1 K1 J2 K2 J3 K3 Y \\
+%.type fr \\
+%.p 10\\
+%0000 0011\\
+%0001 0100\\
+%0010 0101\\
+%0011 0110\\
+%0100 0111\\
+%0101 1000\\
+%0110 1001\\
+%0111 1010\\
+%1000 1011\\
+%1001 1100\\
+%.e
+%\end{multicols}
+%\subsubsection{Výstup}
+%$A = (b\&c\&!d) | (b\&d) | (a);$\\
+%$B = (b\&!c\&!d) | (!b\&c\&!d) | (!b\&d);$\\
+%$C = (c\&d) | (!c\&!d);$\\
+%$D = (!b\&c\&!d) | (b\&c\&!d) | (!c\&!d);$
+
+\subsection{Prepis na NAND s využitím Shefferovej operácie}
+$J1 = $\\
+$J1 = $\\
+$J1 = $\\
+$J1 = $\\\\
+$K1 = $\\
+$K1 = $\\
+$K1 = $\\
+$K1 = $\\\\
+$J2 = $\\
+$J2 = $\\
+$J2 = $\\
+$J2 = $\\\\
+$K2 = $\\
+$K2 = $\\
+$K2 = $\\
+$K2 = $\\\\
+$J3 = $\\
+$J3 = $\\
+$J3 = $\\
+$J3 = $\\\\
+$K3 = $\\
+$K3 = $\\
+$K3 = $\\
+$K3 = $\\\\
+$Y = $\\
+$Y = $\\
+$Y = $\\
+$Y = $\\\\
 Počet logických členov NAND: ??. 
-Počet preklápacích obvodov JK: ??. 
-Počet vstupov do logických členov: ?? z toho ?? v kombinačnej časti a ?? v pamäťovej časti.
+Počet preklápacích obvodov JK: 3. 
+Počet vstupov do logických členov: ?? z toho ?? v kombinačnej časti a 12 v pamäťovej časti.
 
 \end{document}
