@@ -212,33 +212,43 @@ $\textbf{J2}=X+\overline{X}.\overline{Z1}.\overline{Z2}.Z3$&$\textbf{K2}=\overli
 $\textbf{J3}=Z2+X.\overline{Z1}$&$\textbf{K3}=\overline{X}.Z1.\overline{Z2}$\\
 \end{longtable}
 
-%\subsection{ESPRESSO}
-%\subsubsection{Vstup}
-%\begin{multicols}{2}
-%\noindent
-%.i 4 \\
-%.o 7 \\
-%.ilb X Z1 Z2 Z3 \\
-%.ob J1 K1 J2 K2 J3 K3 Y \\
-%.type fr \\
-%.p 10\\
-%0000 0011\\
-%0001 0100\\
-%0010 0101\\
-%0011 0110\\
-%0100 0111\\
-%0101 1000\\
-%0110 1001\\
-%0111 1010\\
-%1000 1011\\
-%1001 1100\\
-%.e
-%\end{multicols}
-%\subsubsection{Výstup}
-%$A = (b\&c\&!d) | (b\&d) | (a);$\\
-%$B = (b\&!c\&!d) | (!b\&c\&!d) | (!b\&d);$\\
-%$C = (c\&d) | (!c\&!d);$\\
-%$D = (!b\&c\&!d) | (b\&c\&!d) | (!c\&!d);$
+\subsection{ESPRESSO}
+\subsubsection{Vstup}
+\begin{multicols}{2}
+\noindent
+.i 4\\
+.o 7\\
+.ilb X Z1 Z2 Z3\\
+.ob J1 K1 J2 K2 J3 K3 Y\\
+.type fr\\
+.p 16\\
+0000 0-0-0-0\\
+0001 1-1--00\\
+0010 0--11-1\\
+0011 0--1-00\\
+0100 -10-0-0\\
+0101 -00--10\\
+0110 ------\\
+0111 -0-1-00\\
+1000 0-1-1-0\\
+1001 0-1--00\\
+1010 0--01-1\\
+1011 0--0-00\\
+1100 -11-0-0\\
+1101 -11--00\\
+1110 -------\\
+1111 -1-0-00\\
+.e\\
+
+\end{multicols}
+\subsubsection{Výstup}
+$J1 = (!X\&!Z1\&!Z2\&Z3);$\\
+$K1 = (!Z3) | (X);$\\
+$J2 = (!X\&!Z1\&!Z2\&Z3) | (X);$\\
+$K2 = (!X);$\\
+$J3 = (X\&!Z1) | (Z2\&!Z3);$\\
+$K3 = (!X\&Z1\&!Z2);$\\
+$Y = (Z2\&!Z3);$\\
 
 \subsection{Prepis na NAND s využitím Shefferovej operácie}
 $J1 = \overline{X}.\overline{Z1}.\overline{Z2}.Z3$\\
@@ -410,41 +420,51 @@ $\textbf{J2}=X$&$\textbf{K2}=\overline{X}.Z1.\overline{Z3}$\\
 \end{Karnaugh}
 &
 \begin{Karnaugh}{XZ1}{Z2Z3}
-\contingut{X,X,0,X,X,X,1,X,X,X,1,X,X,X,1,X}
-\implicantcostats{4}{6}{yellow}
+\contingut{X,X,X,0,X,X,X,1,X,X,X,1,X,X,X,1}
 \implicant{12}{10}{red}
+\implicant{4}{14}{lime}
 \end{Karnaugh}
 \\
-$\textbf{J3}=\overline{X}.\overline{Z1}.Z2$&$\textbf{K3}=X+\overline{X}.Z1.\overline{Z3}$\\
+$\textbf{J3}=\overline{X}.\overline{Z1}.Z2$&$\textbf{K3}=X+Z1$\\
 \end{longtable}
 
-%\subsection{ESPRESSO}
-%\subsubsection{Vstup}
-%\begin{multicols}{2}
-%\noindent
-%.i 4 \\
-%.o 7 \\
-%.ilb X Z1 Z2 Z3 \\
-%.ob J1 K1 J2 K2 J3 K3 Y \\
-%.type fr \\
-%.p 10\\
-%0000 0011\\
-%0001 0100\\
-%0010 0101\\
-%0011 0110\\
-%0100 0111\\
-%0101 1000\\
-%0110 1001\\
-%0111 1010\\
-%1000 1011\\
-%1001 1100\\
-%.e
-%\end{multicols}
-%\subsubsection{Výstup}
-%$A = (b\&c\&!d) | (b\&d) | (a);$\\
-%$B = (b\&!c\&!d) | (!b\&c\&!d) | (!b\&d);$\\
-%$C = (c\&d) | (!c\&!d);$\\
-%$D = (!b\&c\&!d) | (b\&c\&!d) | (!c\&!d);$
+\subsection{ESPRESSO}
+\subsubsection{Vstup}
+\begin{multicols}{2}
+\noindent
+.i 4\\
+.o 7\\
+.ilb X Z1 Z2 Z3\\
+.ob J1 K1 J2 K2 J3 K3 Y\\
+.type fr\\
+.p 16\\
+0000 0-0-0-0\\
+0001 -------\\
+0010 0--01-0\\
+0011 1--0-00\\
+0100 -10-0-0\\
+0101 -------\\
+0110 -0-10-0\\
+0111 -0-0-10\\
+1000 0-1-0-0\\
+1001 -------\\
+1010 0--00-0\\
+1011 0--0-10\\
+1100 -11-0-1\\
+1101 -------\\
+1110 -1-00-0\\
+1111 -1-0-10\\
+.e\\
+
+\end{multicols}
+\subsubsection{Výstup}
+$J1 = (!X\&Z3);$\\
+$K1 = (!Z2) | (X);$\\
+$J2 = (X);$\\
+$K2 = (!X\&Z1\&!Z3);$\\
+$J3 = (!X\&!Z1\&Z2);$\\
+$K3 = (Z1) | (X);$\\
+$Y = (X\&Z1\&!Z2);$\\
 
 \subsection{Prepis na NAND s využitím Shefferovej operácie}
 $J1 = \overline{X}.Z3$\\
@@ -464,18 +484,25 @@ $J3 = \overline{X}.\overline{Z1}.Z2$\\
 $J3 = \overline{\overline{\overline{X}.\overline{Z1}.Z2+\overline{X}.\overline{Z1}.Z2}}$\\
 $J3 = \overline{(\overline{X}.\overline{Z1}.Z2).(\overline{X}.\overline{Z1}.Z2)}$\\
 $J3 = ((X\uparrow)\uparrow(Z1\uparrow)\uparrow Z2)\uparrow$\\\\
-$K3 = X+\overline{X}.Z1.\overline{Z3}$\\
-$K3 = \overline{\overline{X+\overline{X}.Z1.\overline{Z3}}}$\\
-$K3 = \overline{\overline{X}.(\overline{\overline{X}.Z1.\overline{Z3}})}$\\
-$K3 = (X\uparrow)\uparrow((X\uparrow)\uparrow Z1\uparrow(Z3\uparrow))$\\\\
+$K3 = X+Z1$\\
+$K3 = \overline{\overline{X+Z1}}$\\
+$K3 = \overline{\overline{X}.\overline{Z1}}$\\
+$K3 = (X\uparrow)\uparrow(Z1\uparrow)$\\\\
 $Y = X.Z1.\overline{Z2}$\\
 $Y = \overline{\overline{X.Z1.\overline{Z2}+X.Z1.\overline{Z2}}}$\\
 $Y = \overline{(\overline{X.Z1.\overline{Z2}}).(\overline{X.Z1.\overline{Z2}})}$\\
 $Y = (X\uparrow Z1\uparrow(Z2\uparrow))\uparrow$\\\\
-Počet logických členov NAND: ??. 
+Počet logických členov NAND: 11. 
 Počet preklápacích obvodov JK: 3. 
-Počet vstupov do logických členov: ?? z toho ?? v kombinačnej časti a 12 v pamäťovej časti.
+Počet vstupov do logických členov: 37 z toho 25 v kombinačnej časti a 12 v pamäťovej časti.
 
 \section{Zhodnotenie}
+Mojou úlohou bolo vytvoriť automat typu Moore alebo Mealy na sledovanie postupnosti bitov 100001. Pri riešení som počítal s prekrívaním prvého a posledného bitu. Riešenie som spravil pre oba automaty. 
+
+Pri ich tvorbe som si zakreslil graf s prechodmi medzi stavmi a následne prechodovú tabuľku. Pri kódovaní stavov som sa ich snažil zakódovať čo najoptimálnejšie a to tak aby sa pri prechode medzi dvomi stavmi menilo čo najmenej bitov uložených v JK-PO. Následne som prechodovú tabuľku prepísal do Karnaughovej mapy ako budiacie funkcie pre D-PO, ktoré som previedol na JK-PO.
+
+Moje riešenie MDNF pre automat Mealy je zhodné s výstupom z ESPRESSO a pre automat Moore je tam len jedna nepodstatná odlišnosť. Ja som navrhol $\textbf{J3}=Z2+X.\overline{Z1}$, a ESPRESSO použilo skupinovú minimalizáciu s $\textbf{Y}=Z2.\overline{Z3}$. Kde $Z2$ z $\textbf{J3}$ nahradilo $\textbf{Y}$ takto $\textbf{J3}=Z2.\overline{Z3}+X.\overline{Z1}$.
+
+Pri prepise MDNF na Shefferovu operáciu som použil dvojitú negáciu a De Morganove pravidlo. Oba obvody som zakreslil pomocou logických členov NAND v programe LOGISIM. Pri oboch automatoch som potreboval rovnaký počet logických členov ako aj JK-PO a aj identický počet vstupov do logických členov. Na simuláciu obvodu som použil v LOGISIMe aj komponenty ROM v ktorom je uložená sekvencia 0 a 1 a Counter ktorý postupne posiela jednotlivé bity z ROM do automatov Moore a Mealy. Podrobnejšie informácie sú v LOGISIMe.
 
 \end{document}
